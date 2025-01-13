@@ -1,18 +1,20 @@
 # Gunakan image dasar Python
-FROM python:3.8-slim
+FROM python:3.9-slim
 
-# Setel direktori kerja
+# Tetapkan working directory
 WORKDIR /app
 
-# Salin file requirements.txt dan instal dependensi
+# Salin file requirements.txt ke dalam container
 COPY requirements.txt .
-RUN pip install -r requirements.txt
 
-# Salin kode aplikasi
+# Instal dependensi
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Salin semua file proyek ke dalam container
 COPY . .
 
-# Ekspos port 8080
+# Ekspose port 8080
 EXPOSE 8080
 
-# Tentukan perintah untuk menjalankan aplikasi
+# Jalankan aplikasi
 CMD ["python", "app.py"]
