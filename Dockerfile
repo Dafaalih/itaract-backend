@@ -1,25 +1,18 @@
-# Gunakan image Python yang ringan
-FROM python:3.9-slim
+# Gunakan image dasar Python
+FROM python:3.8-slim
 
-# Tentukan working directory
+# Setel direktori kerja
 WORKDIR /app
 
-# Copy file requirements.txt ke dalam image
-COPY requirements.txt ./
+# Salin file requirements.txt dan instal dependensi
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-# Install dependensi Python
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy semua file dari folder backend ke dalam image
+# Salin kode aplikasi
 COPY . .
 
-# Expose port 5000 (default untuk Flask)
-EXPOSE 5000
+# Ekspos port 8080
+EXPOSE 8080
 
-# Set environment variable untuk Flask
-ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST=0.0.0.0
-
-# Jalankan aplikasi Flask
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
-
+# Tentukan perintah untuk menjalankan aplikasi
+CMD ["python", "app.py"]
